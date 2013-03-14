@@ -1,7 +1,8 @@
 # HTTPMessage
 
 This is a scala library for the parsing and creation of HTTP messages. It
-is based heavily on the HTTP::Messages library for Perl.
+is based heavily on the (HTTP::Messages)[https://metacpan.org/release/HTTP-Message]
+library for Perl.
 
 ## Why?
 
