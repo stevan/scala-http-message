@@ -6,6 +6,7 @@ class HTTPStatusTestSuite001 extends TestMore {
 
     is(HTTPStatus(200).toString, "OK", "... got the expected value")
     is(HTTPStatus(200), HTTPStatus.OK, "... got the expected value")
+    is(HTTPStatus.withName("OK"), HTTPStatus.OK, "... got the expected value")
 
     ok(HTTPStatus.isInfo(HTTPStatus.CONTINUE),                     "... 100 is Info")
     ok(HTTPStatus.isSuccess(HTTPStatus.OK),                        "... 200 is Success")
