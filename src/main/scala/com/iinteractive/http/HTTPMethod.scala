@@ -14,7 +14,7 @@ object HTTPMethod {
     case object TRACE   extends HTTPMethod
     case object CONNECT extends HTTPMethod
 
-    def withName(n: String): HTTPMethod = n.toUpperCase match {
+    def apply(n: String): HTTPMethod = n.toUpperCase match {
         case "OPTIONS" => OPTIONS
         case "GET"     => GET
         case "HEAD"    => HEAD
