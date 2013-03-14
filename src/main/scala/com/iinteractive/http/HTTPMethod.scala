@@ -1,22 +1,18 @@
 package com.iinteractive.http
 
 
-sealed abstract class HTTPMethod(private val name: String) {
-    def getName = name
-
-    override def toString = getName
-}
+sealed abstract class HTTPMethod
 
 object HTTPMethod {
-    case object OPTIONS extends HTTPMethod("OPTIONS")
-    case object GET     extends HTTPMethod("GET")
-    case object HEAD    extends HTTPMethod("HEAD")
-    case object POST    extends HTTPMethod("POST")
-    case object PUT     extends HTTPMethod("PUT")
-    case object DELETE  extends HTTPMethod("DELETE")
-    case object PATCH   extends HTTPMethod("PATCH")
-    case object TRACE   extends HTTPMethod("TRACE")
-    case object CONNECT extends HTTPMethod("CONNECT")
+    case object OPTIONS extends HTTPMethod
+    case object GET     extends HTTPMethod
+    case object HEAD    extends HTTPMethod
+    case object POST    extends HTTPMethod
+    case object PUT     extends HTTPMethod
+    case object DELETE  extends HTTPMethod
+    case object PATCH   extends HTTPMethod
+    case object TRACE   extends HTTPMethod
+    case object CONNECT extends HTTPMethod
 
     def withName(n: String): HTTPMethod = n.toUpperCase match {
         case "OPTIONS" => OPTIONS
@@ -28,6 +24,7 @@ object HTTPMethod {
         case "PATCH"   => PATCH
         case "TRACE"   => TRACE
         case "CONNECT" => CONNECT
+        case _         => throw new HTTP.Errors.InvalidHTTPMethod(n)
     }
 }
 
