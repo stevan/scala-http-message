@@ -20,4 +20,5 @@ object HTTPMethod extends Enumeration {
  * See Also:
  *
  * - https://github.com/netty/netty/blob/master/codec-http/src/main/java/io/netty/handler/codec/http/HttpMethod.java
+ * - http://java.net/projects/jax-rs-spec/sources/git/content/src/jax-rs-api/src/main/java/javax/ws/rs/HttpMethod.java
  */
