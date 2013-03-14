@@ -67,6 +67,13 @@ object HTTPStatus extends Enumeration {
     val NOT_EXTENDED                    = Value(510, "Not Extended")                    // RFC 2774
     val NETWORK_AUTHENTICATION_REQUIRED = Value(511, "Network Authentication Required")
 
+    def isInfo        (s: HTTPStatus): Boolean = s.id >= 100 && s.id < 200
+    def isSuccess     (s: HTTPStatus): Boolean = s.id >= 200 && s.id < 300
+    def isRedirect    (s: HTTPStatus): Boolean = s.id >= 300 && s.id < 400
+    def isError       (s: HTTPStatus): Boolean = s.id >= 400 && s.id < 600
+    def isClientError (s: HTTPStatus): Boolean = s.id >= 400 && s.id < 500
+    def isServerError (s: HTTPStatus): Boolean = s.id >= 500 && s.id < 600
+
 }
 
 
