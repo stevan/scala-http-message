@@ -1,10 +1,9 @@
 package com.iinteractive.http
 
 sealed abstract class HTTPVersion(major: Int, minor: Int) {
-    def protocolName = "HTTP"
     def majorVersion = major
     def minorVersion = minor
-    override def toString = protocolName + "/" + majorVersion + "." + minorVersion
+    override def toString = "HTTP/" + majorVersion + "." + minorVersion
 }
 
 object HTTPVersion {
@@ -22,9 +21,6 @@ object HTTPVersion {
 
 /**
  * See Also:
- *
- * Enumeration.Val extension:
- * - http://downgra.de/2010/02/11/playing-with-scala-enumeration/
  *
  * Other implementations:
  * - http://hc.apache.org/httpcomponents-core-ga/httpcore/xref/org/apache/http/HttpVersion.html
