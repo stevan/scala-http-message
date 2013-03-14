@@ -11,3 +11,10 @@ Java and Scala, they all are part of a larger project. This means that
 either they are a heavier dependency or they are specifically focused on
 one task (HTTP clients or HTTP servers, for instance). The goal of this
 library is to provide a task agnostic means of dealing with HTTP.
+
+## See Also
+
+The closest I have seen to what I am looking for is the [org.apache.http](http://hc.apache.org/httpcomponents-core-ga/httpcore/xref/index.html)
+package, but even that deals with things like socket connections, etc. which
+is more then what I am looking for.
+
