@@ -12,6 +12,8 @@ object HTTPMethod extends Enumeration {
     val PATCH   = Value("PATCH")
     val TRACE   = Value("TRACE")
     val CONNECT = Value("CONNECT")
+
+    def apply(x: String) = withName(x)
 }
 
 /**
