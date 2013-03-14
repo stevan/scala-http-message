@@ -4,4 +4,6 @@ import com.iinteractive.test._
 
 class HTTPMessageTestSuite001 extends TestMore {
 
+    pass("... just a placeholder")
+
 }
