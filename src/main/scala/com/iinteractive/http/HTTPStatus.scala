@@ -86,6 +86,7 @@ object HTTPStatus extends Enumeration {
  * - http://static.springsource.org/spring/docs/3.0.x/api/org/springframework/http/HttpStatus.html
  * - http://docs.oracle.com/javase/1.4.2/docs/api/java/net/HttpURLConnection.html
  * - http://docs.oracle.com/javaee/6/api/javax/servlet/http/HttpServletResponse.html
+ * - http://hc.apache.org/httpcomponents-core-ga/httpcore/xref/org/apache/http/HttpStatus.html
  *
  */
 
