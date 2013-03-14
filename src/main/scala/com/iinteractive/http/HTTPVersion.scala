@@ -1,27 +1,23 @@
 package com.iinteractive.http
 
-object HTTPVersion extends Enumeration {
-    type HTTPVersion = HTTPVersionValue
+sealed abstract class HTTPVersion(major: Int, minor: Int) {
+    def protocolName = "HTTP"
+    def majorVersion = major
+    def minorVersion = minor
+    override def toString = protocolName + "/" + majorVersion + "." + minorVersion
+}
 
-    case class HTTPVersionValue(major: Int, minor: Int) extends Val(nextId) {
-        def protocolName = "HTTP"
-        def majorVersion = major
-        def minorVersion = minor
-        override def toString = protocolName + "/" + majorVersion + "." + minorVersion
+object HTTPVersion {
+    case object HTTP_0_9 extends HTTPVersion(0, 9)
+    case object HTTP_1_0 extends HTTPVersion(1, 0)
+    case object HTTP_1_1 extends HTTPVersion(1, 1)
+
+    def apply (major: Int, minor: Int): HTTPVersion = (major, minor) match {
+        case (0, 9) => HTTP_0_9
+        case (1, 0) => HTTP_1_0
+        case (1, 1) => HTTP_1_1
+        case _      => throw new HTTP.Errors.InvalidHTTPVersion(major + "." + minor)
     }
-
-    val HTTP_0_9 = HTTPVersionValue(0, 9)
-    val HTTP_1_0 = HTTPVersionValue(1, 0)
-    val HTTP_1_1 = HTTPVersionValue(1, 1)
-
-    // NOTE:
-    // not sure I actually need this or care about it
-    // it will require adding the following line at
-    // the top of this file:
-    //    import scala.language.implicitConversions
-    // but lets wait until we actually need or care.
-    // - SL
-    //implicit def valueToVersion(v: Value): HTTPVersionValue = v.asInstanceOf[HTTPVersionValue]
 }
 
 /**
