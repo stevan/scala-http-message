@@ -26,6 +26,28 @@ object HTTPMethod {
         case "CONNECT" => CONNECT
         case _         => throw new HTTP.Errors.InvalidHTTPMethod(n)
     }
+
+    object WebDAV {
+        // http://tools.ietf.org/html/rfc4918
+        case object PROPFIND  extends HTTPMethod
+        case object PROPPATCH extends HTTPMethod
+        case object MKCOL     extends HTTPMethod
+        case object COPY      extends HTTPMethod
+        case object MOVE      extends HTTPMethod
+        case object LOCK      extends HTTPMethod
+        case object UNLOCK    extends HTTPMethod
+
+        def apply(n: String): HTTPMethod = n.toUpperCase match {
+            case "PROPFIND"  => PROPFIND 
+            case "PROPPATCH" => PROPPATCH
+            case "MKCOL"     => MKCOL    
+            case "COPY"      => COPY     
+            case "MOVE"      => MOVE     
+            case "LOCK"      => LOCK     
+            case "UNLOCK"    => UNLOCK 
+            case _           => throw new HTTP.Errors.InvalidHTTPMethod(n)  
+        }
+    }
 }
 
 /**
