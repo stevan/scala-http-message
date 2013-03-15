@@ -16,4 +16,8 @@ class HTTPVersionTestSuite001 extends TestMore {
     is(HTTPVersion.HTTP_1_1.majorVersion, 1, "... got the expected value")
     is(HTTPVersion.HTTP_1_1.minorVersion, 1, "... got the expected value")
 
+    is(HTTPVersion(0, 9), HTTPVersion.HTTP_0_9, "... values matched")
+    is(HTTPVersion(1, 0), HTTPVersion.HTTP_1_0, "... values matched")
+    is(HTTPVersion(1, 1), HTTPVersion.HTTP_1_1, "... values matched")
+
 }
