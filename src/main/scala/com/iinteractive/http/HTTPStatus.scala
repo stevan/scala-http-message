@@ -13,7 +13,7 @@ object HTTPStatus extends Enumeration {
     val NO_CONTENT                      = Value(204, "No Content")
     val RESET_CONTENT                   = Value(205, "Reset Content")
     val PARTIAL_CONTENT                 = Value(206, "Partial Content")
-    val MULTI_STATUS                    = Value(207, "Multi-Status")                    // RFC 2518 (WebDAV)
+    val MULTI_STATUS                    = Value(207, "Multi-Status")                    // RFC 4918 (WebDAV)
     val ALREADY_REPORTED                = Value(208, "Already Reported")                // RFC 5842
     val IM_USED                         = Value(226, "IM Used")
     val MULTIPLE_CHOICES                = Value(300, "Multiple Choices")
@@ -45,9 +45,9 @@ object HTTPStatus extends Enumeration {
     val INSUFFICIENT_SPACE_ON_RESOURCE  = Value(419, "Insufficient Space on Resource.") // RFC 2518 (WebDAV)
     val METHOD_FAILURE                  = Value(420, "Method Failure")                  // RFC 2518 (WebDAV)
     val DESTINATION_LOCKED              = Value(421, "Destination Locked")              // RFC 2518 (WebDAV)
-    val UNPROCESSABLE_ENTITY            = Value(422, "Unprocessable Entity")            // RFC 2518 (WebDAV)
-    val LOCKED                          = Value(423, "Locked")                          // RFC 2518 (WebDAV)
-    val FAILED_DEPENDENCY               = Value(424, "Failed Dependency")               // RFC 2518 (WebDAV)
+    val UNPROCESSABLE_ENTITY            = Value(422, "Unprocessable Entity")            // RFC 4918 (WebDAV)
+    val LOCKED                          = Value(423, "Locked")                          // RFC 4918 (WebDAV)
+    val FAILED_DEPENDENCY               = Value(424, "Failed Dependency")               // RFC 4918 (WebDAV)
     val NO_CODE                         = Value(425, "No code")                         // WebDAV Advanced Collections
     val UPGRADE_REQUIRED                = Value(426, "Upgrade Required")                // RFC 2817
     val PRECONDITION_REQUIRED           = Value(428, "Precondition Required")
@@ -61,7 +61,7 @@ object HTTPStatus extends Enumeration {
     val GATEWAY_TIMEOUT                 = Value(504, "Gateway Timeout")
     val HTTP_VERSION_NOT_SUPPORTED      = Value(505, "HTTP Version Not Supported")
     val VARIANT_ALSO_NEGOTIATES         = Value(506, "Variant Also Negotiates")         // RFC 2295
-    val INSUFFICIENT_STORAGE            = Value(507, "Insufficient Storage")            // RFC 2518 (WebDAV)
+    val INSUFFICIENT_STORAGE            = Value(507, "Insufficient Storage")            // RFC 4918 (WebDAV)
     val LOOP_DETECTED                   = Value(508, "Loop Detected")
     val BANDWIDTH_LIMIT_EXCEEDED        = Value(509, "Bandwidth Limit Exceeded")        // unofficial
     val NOT_EXTENDED                    = Value(510, "Not Extended")                    // RFC 2774
@@ -73,6 +73,8 @@ object HTTPStatus extends Enumeration {
     def isError       (s: HTTPStatus): Boolean = s.id >= 400 && s.id < 600
     def isClientError (s: HTTPStatus): Boolean = s.id >= 400 && s.id < 500
     def isServerError (s: HTTPStatus): Boolean = s.id >= 500 && s.id < 600
+
+    // TODO - make predicates for WebDAV status codes (http://tools.ietf.org/html/rfc4918)
 
 }
 
