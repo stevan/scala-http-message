@@ -2,16 +2,35 @@ package com.iinteractive.http.headers
 
 import scala.collection.mutable.PriorityQueue
 
-class PriorityList {
+class PriorityItem (val value: String) extends WithQuality {
 
-    object QualityOrding extends Ordering[WithQuality] {
-        def compare(x: WithQuality, y: WithQuality) = x.quality.compare(y.quality)
+    def this(v: String, q: Double) = {
+        this(v)
+        quality = q
     }
 
-    private val queue: PriorityQueue[WithQuality] = new PriorityQueue[WithQuality]()(QualityOrding)
+    override def toString = value + "; q=" + quality 
+}
 
-    def add(i: WithQuality) = queue += i
+class PriorityList {
+
+    def this (i: PriorityItem*) = {
+        this()
+        queue ++= i
+    }
+
+    object QualityOrding extends Ordering[PriorityItem] {
+        def compare(x: PriorityItem, y: PriorityItem) = x.quality.compare(y.quality)
+    }
+
+    private val queue: PriorityQueue[PriorityItem] = new PriorityQueue[PriorityItem]()(QualityOrding)
+
+    def add(i: PriorityItem)      = queue += i
+    def add(v: String)            = queue += new PriorityItem(v)
+    def add(v: String, q: Double) = queue += new PriorityItem(v, q)
 
     def iterator = queue.clone().dequeueAll.iterator
+
+    override def toString = queue.mkString(", ")
 
 }
