@@ -2,9 +2,9 @@ package com.iinteractive.http.headers
 
 class MediaType(val major: String, val minor: String) extends WithParams with WithQuality {
 
-    def this (major: String, minor: String, quality: Double) = {
+    def this (major: String, minor: String, q: Double) = {
         this(major, minor)
-        this.quality = quality
+        quality = q
     }
 
     private val fullType = major + "/" + minor
