@@ -9,7 +9,9 @@ import scala.collection.immutable.Map
 
 import com.iinteractive.http.HTTP
 
-class HTTPDate (private val date: DateTime) {
+class HTTPDate (
+        private val date: DateTime = new DateTime()
+    ) {
     
     def second     = date.getSecondOfMinute
     def minute     = date.getMinuteOfHour
