@@ -49,7 +49,7 @@ object HTTPHeader {
     case class Cookie (val value: String) extends HTTPHeader("Cookie")
 
     case class Date (val date: HTTPDate) extends HTTPHeader("Date") {
-        def value = date.format(HTTPDate.formats("Response-Header"))
+        def value = date.format(HTTPDate.formats("RFC-1123"))
     }
 
     case class ETag    (val value: String) extends HTTPHeader("ETag")
