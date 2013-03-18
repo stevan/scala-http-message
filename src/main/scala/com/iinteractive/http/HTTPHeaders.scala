@@ -12,19 +12,10 @@ sealed abstract class HTTPHeader(val name: String) {
 object HTTPHeader {
     def unapply(h: HTTPHeader): Option[(String, String)] = Some(h.name -> h.value)
 
-    case class Accept         (val value: String) extends HTTPHeader("Accept")
-
-    case class AcceptCharset  (val list: PriorityList) extends HTTPHeader("Accept-Charset") {
-        def value = list.toString
-    }
-
-    case class AcceptEncoding (val list: PriorityList) extends HTTPHeader("Accept-Encoding") {
-        def value = list.toString
-    }
-    
-    case class AcceptLanguage (val list: PriorityList) extends HTTPHeader("Accept-Language") {
-        def value = list.toString
-    }
+    case class Accept         (val list: MediaTypeList) extends HTTPHeader("Accept")          { def value = list.toString }
+    case class AcceptCharset  (val list: PriorityList)  extends HTTPHeader("Accept-Charset")  { def value = list.toString }
+    case class AcceptEncoding (val list: PriorityList)  extends HTTPHeader("Accept-Encoding") { def value = list.toString }
+    case class AcceptLanguage (val list: PriorityList)  extends HTTPHeader("Accept-Language") { def value = list.toString }
 
     case class AcceptRanges   (val value: String) extends HTTPHeader("Accept-Ranges")
     case class AcceptPatch    (val value: String) extends HTTPHeader("Accept-Patch")
