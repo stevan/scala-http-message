@@ -70,23 +70,33 @@ object HTTPHeader {
     // TODO - write a Cookie Parser - SL
     case class Cookie (val value: String) extends HTTPHeader("Cookie")
 
-    case class Date (val date: HTTPDate) extends HTTPHeader("Date") {
-        def value = date.format(HTTPDate.formats("RFC-1123"))
+    case class Date    (val date: HTTPDate)                 extends HTTPHeader("Date") { def value = date.toString }
+    case class ETag    (val entityTag: EntityTag)           extends HTTPHeader("ETag") { def value = entityTag.toString }
+    case class Expect  (val value: String = "100-continue") extends HTTPHeader("Expect") // wrong I know, but I can't find other examples
+    case class Expires (val date: HTTPDate)                 extends HTTPHeader("Expires") { def value = date.toString }
+    case class From    (val value: String)                  extends HTTPHeader("From") // TODO - email address validation (maybe)
+    case class Host    (val value: String)                  extends HTTPHeader("Host") // TODO - add some validaiton
+ 
+    case class IfMatch (val entityTags: EntityTag*) extends HTTPHeader("If-Match") { 
+        def value = if (entityTags.isEmpty) "*" else entityTags.mkString(", ") 
     }
 
-    case class ETag    (val value: String) extends HTTPHeader("ETag")
-    case class Expect  (val value: String) extends HTTPHeader("Expect")
-    case class Expires (val value: String) extends HTTPHeader("Expires")
-    case class From    (val value: String) extends HTTPHeader("From")
-    case class Host    (val value: String) extends HTTPHeader("Host")
- 
-    case class IfMatch           (val value: String) extends HTTPHeader("If-Match")
-    case class IfModifiedSince   (val value: String) extends HTTPHeader("If-Modified-Since")
-    case class IfNoneMatch       (val value: String) extends HTTPHeader("If-None-Match")
-    case class IfRange           (val value: String) extends HTTPHeader("If-Range")
-    case class IfUnmodifiedSince (val value: String) extends HTTPHeader("If-Unmodified-Since")
+    case class IfNoneMatch (val entityTags: EntityTag*) extends HTTPHeader("If-None-Match") { 
+        def value = if (entityTags.isEmpty) "*" else entityTags.mkString(", ") 
+    }
 
-    case class LastModified (val value: String) extends HTTPHeader("LastModified")
+    case class IfRange (val entityTag: Option[EntityTag], val date: Option[HTTPDate]) extends HTTPHeader("If-Range") { 
+        def value = (entityTag, date) match {
+            case (Some(e), None) => e.toString
+            case (None, Some(d)) => d.toString
+            case _               => throw new HTTP.Errors.InvalidHTTPHeader("If-Range")
+        }
+    }
+
+    case class IfModifiedSince   (val date: HTTPDate) extends HTTPHeader("If-Modified-Since")   {  def value = date.toString }
+    case class IfUnmodifiedSince (val date: HTTPDate) extends HTTPHeader("If-Unmodified-Since") { def value = date.toString }
+    case class LastModified      (val date: HTTPDate) extends HTTPHeader("LastModified")        { def value = date.toString }
+
     case class Location     (val value: String) extends HTTPHeader("Location")
     case class MaxForwards  (val value: String) extends HTTPHeader("Max-Forwards")
     case class Origin       (val value: String) extends HTTPHeader("Origin")
