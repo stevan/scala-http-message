@@ -1,5 +1,7 @@
 package com.iinteractive.http
 
+import com.github.theon.uri.Uri
+
 import scala.collection.mutable.LinkedHashMap
 
 import com.iinteractive.http.headers._
@@ -13,50 +15,59 @@ object HTTPHeader {
     def unapply(h: HTTPHeader): Option[(String, String)] = Some(h.name -> h.value)
 
     /**
-     * SEE ALSO - http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
+     * SEE ALSO 
+     * - http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
+     * - http://en.wikipedia.org/wiki/List_of_HTTP_header_fields
+     *
+     * Range Requests:
+     * - http://www.greenbytes.de/tech/webdav/draft-ietf-httpbis-p5-range-latest.html
+     * 
+     * Authorization: 
+     * - http://www.ietf.org/rfc/rfc2617.txt
+     *
+     * Content-MD5
+     * - http://www.ietf.org/rfc/rfc1864.txt
+     *
+     * Accept-Patch
+     * - http://tools.ietf.org/html/rfc5789#section-3.1
+     *
+     * Content-Transfer-Encoding
+     * - http://www.w3.org/Protocols/rfc1341/5_Content-Transfer-Encoding.html
      */
 
-    case class Accept         (val list: MediaTypeList) extends HTTPHeader("Accept")          { def value = list.toString }
-    case class AcceptCharset  (val list: PriorityList)  extends HTTPHeader("Accept-Charset")  { def value = list.toString }
-    case class AcceptEncoding (val list: PriorityList)  extends HTTPHeader("Accept-Encoding") { def value = list.toString }
-    case class AcceptLanguage (val list: PriorityList)  extends HTTPHeader("Accept-Language") { def value = list.toString }
+    case class Accept         (val list: MediaTypeList)  extends HTTPHeader("Accept")          { def value = list.toString }
+    case class AcceptCharset  (val list: PriorityList)   extends HTTPHeader("Accept-Charset")  { def value = list.toString }
+    case class AcceptEncoding (val list: PriorityList)   extends HTTPHeader("Accept-Encoding") { def value = list.toString }
+    case class AcceptLanguage (val list: PriorityList)   extends HTTPHeader("Accept-Language") { def value = list.toString }
+    case class AcceptRanges   (val values: String*)      extends HTTPHeader("Accept-Ranges")   { def value = values.mkString(", ") }
+    case class AcceptPatch    (val list: MediaTypeList)  extends HTTPHeader("Accept-Patch")    { def value = list.toString }
+    case class Age            (val deltaSeconds: Int)    extends HTTPHeader("Age")             { def value = deltaSeconds.toString }
+    case class Allow          (val methods: HTTPMethod*) extends HTTPHeader("Allow")           { def value = methods.mkString(", ") }
 
-    // Range Units - http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.12
-    case class AcceptRanges (val value: String) extends HTTPHeader("Accept-Ranges")
-
-    // Accept-Patch header - http://tools.ietf.org/html/rfc5789#section-3.1
-    case class AcceptPatch (val list: MediaTypeList) extends HTTPHeader("Accept-Patch") { def value = list.toString }
-
-    // Cross-Origin Resource Sharing headers - http://www.w3.org/TR/cors/
-    case class AccessControlAllowCredentials (val value: String) extends HTTPHeader("Access-Control-Allow-Credentials")
-    case class AccessControlAllowHeaders     (val value: String) extends HTTPHeader("Access-Control-Allow-Headers")
-    case class AccessControlAllowMethods     (val value: String) extends HTTPHeader("Access-Control-Allow-Methods")
-    case class AccessControlAllowOrigin      (val value: String) extends HTTPHeader("Access-Control-Allow-Origin")
-    case class AccessControlExposeHeaders    (val value: String) extends HTTPHeader("Access-Control-Expose-Headers")
-    case class AccessControlMaxAge           (val value: String) extends HTTPHeader("Access-Control-Max-Age")
-    case class AccessControlRequestHeaders   (val value: String) extends HTTPHeader("Access-Control-Request-Headers")
-    case class AccessControlRequestMethod    (val value: String) extends HTTPHeader("Access-Control-Request-Method")
-
-    case class Age   (val deltaSeconds: Int)    extends HTTPHeader("Age")   { def value = deltaSeconds.toString }
-    case class Allow (val methods: HTTPMethod*) extends HTTPHeader("Allow") { def value = methods.mkString(", ") }
-
-    // Authorization - http://www.ietf.org/rfc/rfc2617.txt
+    // TODO - make an Authorization header type
     case class Authorization (val value: String) extends HTTPHeader("Authorization")
-    
-    case class CacheControl  (val value: String) extends HTTPHeader("Cache-Control")
-    case class Connection    (val value: String) extends HTTPHeader("Connection")
 
-    case class ContentBase             (val value: String) extends HTTPHeader("Content-Base")
-    case class ContentDisposition      (val value: String) extends HTTPHeader("Content-Disposition")
-    case class ContentEncoding         (val value: String) extends HTTPHeader("Content-Encoding")
-    case class ContentLanguage         (val value: String) extends HTTPHeader("Content-Language")
-    case class ContentLength           (val value: String) extends HTTPHeader("Content-Length")
-    case class ContentLocation         (val value: String) extends HTTPHeader("Content-Location")
-    case class ContentTransferEncoding (val value: String) extends HTTPHeader("Content-Transfer-Encoding")
-    case class ContentMD5              (val value: String) extends HTTPHeader("Content-MD5")
+    case class CacheControl (val directives: CacheDirective*) extends HTTPHeader("Cache-Control") { def value = directives.mkString(", ") }
+    case class Connection   (val values: String*)             extends HTTPHeader("Connection")    { def value = values.mkString(", ") }
+    case class ContentBase  (val url: Uri)                    extends HTTPHeader("Content-Base")  { def value = url.toString }
+
+    case class ContentDisposition (val dispositionType: ContentDispositionType) extends HTTPHeader("Content-Disposition") { 
+        def value = dispositionType.toString   
+    }
+
+    case class ContentEncoding         (val values: String*) extends HTTPHeader("Content-Encoding") { def value = values.mkString(", ") }
+    case class ContentLanguage         (val values: String*) extends HTTPHeader("Content-Language") { def value = values.mkString(", ") }
+    case class ContentLength           (val length: Int)     extends HTTPHeader("Content-Length")   { def value = length.toString }
+    case class ContentLocation         (val uri: Uri)        extends HTTPHeader("Content-Location") { def value = uri.toString }
+    case class ContentTransferEncoding (val value: String)   extends HTTPHeader("Content-Transfer-Encoding")
+    case class ContentMD5              (val value: String)   extends HTTPHeader("Content-MD5")
+
+    // TODO - write a ContentRange header - SL 
     case class ContentRange            (val value: String) extends HTTPHeader("Content-Range")
-    case class ContentType             (val value: String) extends HTTPHeader("Content-Type")
 
+    case class ContentType (val mediaType: MediaType) extends HTTPHeader("Content-Type") { def value = mediaType.toString }
+
+    // TODO - write a Cookie Parser - SL
     case class Cookie (val value: String) extends HTTPHeader("Cookie")
 
     case class Date (val date: HTTPDate) extends HTTPHeader("Date") {
@@ -103,6 +114,18 @@ object HTTPHeader {
     case class Warning          (val value: String) extends HTTPHeader("Warning")
 
     case class WWWAuthenticate (val value: String) extends HTTPHeader("WWW-Authenticate")
+
+    object CORS {
+        // Cross-Origin Resource Sharing headers - http://www.w3.org/TR/cors/
+        case class AccessControlAllowCredentials (val value: String) extends HTTPHeader("Access-Control-Allow-Credentials")
+        case class AccessControlAllowHeaders     (val value: String) extends HTTPHeader("Access-Control-Allow-Headers")
+        case class AccessControlAllowMethods     (val value: String) extends HTTPHeader("Access-Control-Allow-Methods")
+        case class AccessControlAllowOrigin      (val value: String) extends HTTPHeader("Access-Control-Allow-Origin")
+        case class AccessControlExposeHeaders    (val value: String) extends HTTPHeader("Access-Control-Expose-Headers")
+        case class AccessControlMaxAge           (val value: String) extends HTTPHeader("Access-Control-Max-Age")
+        case class AccessControlRequestHeaders   (val value: String) extends HTTPHeader("Access-Control-Request-Headers")
+        case class AccessControlRequestMethod    (val value: String) extends HTTPHeader("Access-Control-Request-Method")        
+    }
 
     object WebSockets {
         // http://tools.ietf.org/html/rfc6455
