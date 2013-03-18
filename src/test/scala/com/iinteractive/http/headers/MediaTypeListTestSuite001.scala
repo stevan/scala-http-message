@@ -65,7 +65,7 @@ class MediaTypeListTestSuite001 extends TestMore {
 
     subtest("ordering test 3") {
         val mt = new MediaType("text", "html")
-        mt.addParam("level", "1")
+        mt.addParam("level" -> "1")
 
         val pl = new MediaTypeList(
             new MediaType("text", "*"),
@@ -113,7 +113,7 @@ class MediaTypeListTestSuite001 extends TestMore {
 
         val mt = new MediaType("application", "json")
         mt.addParam("v", "3")
-        mt.addParam("foo", "bar")
+        mt.addParam("foo" -> "bar")
 
         val mt2 = new MediaType("application", "json")
         mt2.addParam("v", "2")

@@ -6,6 +6,8 @@ trait WithParams {
     val params: LinkedHashMap[String, String]  = LinkedHashMap()
     
     def addParam(k: String, v: String) = params += (k -> v)
+    def addParam(p: (String, String))  = params += p
+
     def removeParam(k: String) = params -= k
 
     def paramsAreEmpty = params.isEmpty
