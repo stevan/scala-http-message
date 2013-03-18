@@ -149,6 +149,21 @@ class HTTPHeadersTestSuite001 extends TestMore {
         is(h.toString, "Content-MD5: Q2hlY2sgSW50ZWdyaXR5IQ==", "... got the value we expected")
     }
 
+    subtest ("ContentRange header") {
+        val h = new HTTPHeader.ContentRange("TODO")
+        is(h.toString, "Content-Range: TODO", "... got the value we expected")
+    }
+
+    subtest ("ContentType header") {
+        val h = new HTTPHeader.ContentType(new MediaType("text", "html", Some(0.3)))
+        is(h.toString, "Content-Type: text/html; q=0.3", "... got the value we expected")
+    }
+
+    subtest ("Cookie header") {
+        val h = new HTTPHeader.Cookie("TODO")
+        is(h.toString, "Cookie: TODO", "... got the value we expected")
+    }
+
 }
 
 
