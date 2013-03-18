@@ -2,6 +2,10 @@ package com.iinteractive.http.headers
 
 import scala.collection.mutable.PriorityQueue
 
+/**
+ * SEE ALSO - http://tools.ietf.org/html/rfc2616#section-3.7
+ */
+
 class MediaType(val major: String, val minor: String) extends WithParams with WithQuality {
 
     def this (major: String, minor: String, q: Option[Double]) = {
