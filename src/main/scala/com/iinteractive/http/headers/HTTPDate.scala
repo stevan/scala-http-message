@@ -23,7 +23,7 @@ class HTTPDate (
     
     def format(f: DateTimeFormatter) = f.print(date)
 
-    override def toString = date.toString()
+    override def toString = format(HTTPDate.formats("RFC-1123"))
 }
 
 object HTTPDate {
