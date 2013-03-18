@@ -12,13 +12,20 @@ sealed abstract class HTTPHeader(val name: String) {
 object HTTPHeader {
     def unapply(h: HTTPHeader): Option[(String, String)] = Some(h.name -> h.value)
 
+    /**
+     * SEE ALSO - http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html
+     */
+
     case class Accept         (val list: MediaTypeList) extends HTTPHeader("Accept")          { def value = list.toString }
     case class AcceptCharset  (val list: PriorityList)  extends HTTPHeader("Accept-Charset")  { def value = list.toString }
     case class AcceptEncoding (val list: PriorityList)  extends HTTPHeader("Accept-Encoding") { def value = list.toString }
     case class AcceptLanguage (val list: PriorityList)  extends HTTPHeader("Accept-Language") { def value = list.toString }
 
-    case class AcceptRanges   (val value: String) extends HTTPHeader("Accept-Ranges")
-    case class AcceptPatch    (val value: String) extends HTTPHeader("Accept-Patch")
+    // Range Units - http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.12
+    case class AcceptRanges (val value: String) extends HTTPHeader("Accept-Ranges")
+
+    // Accept-Patch header - http://tools.ietf.org/html/rfc5789#section-3.1
+    case class AcceptPatch (val list: MediaTypeList) extends HTTPHeader("Accept-Patch") { def value = list.toString }
 
     // Cross-Origin Resource Sharing headers - http://www.w3.org/TR/cors/
     case class AccessControlAllowCredentials (val value: String) extends HTTPHeader("Access-Control-Allow-Credentials")
@@ -30,9 +37,12 @@ object HTTPHeader {
     case class AccessControlRequestHeaders   (val value: String) extends HTTPHeader("Access-Control-Request-Headers")
     case class AccessControlRequestMethod    (val value: String) extends HTTPHeader("Access-Control-Request-Method")
 
-    case class Age           (val value: String) extends HTTPHeader("Age")
-    case class Allow         (val value: String) extends HTTPHeader("Allow")
+    case class Age   (val deltaSeconds: Int)    extends HTTPHeader("Age")   { def value = deltaSeconds.toString }
+    case class Allow (val methods: HTTPMethod*) extends HTTPHeader("Allow") { def value = methods.mkString(", ") }
+
+    // Authorization - http://www.ietf.org/rfc/rfc2617.txt
     case class Authorization (val value: String) extends HTTPHeader("Authorization")
+    
     case class CacheControl  (val value: String) extends HTTPHeader("Cache-Control")
     case class Connection    (val value: String) extends HTTPHeader("Connection")
 
