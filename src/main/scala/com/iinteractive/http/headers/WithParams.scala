@@ -32,4 +32,6 @@ trait WithParams {
             }    
         }
     }
+
+    def paramsToString = params.map(p => p._1 + "=\"" + p._2 + "\"").mkString("; ")
 }
